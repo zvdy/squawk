@@ -218,6 +218,11 @@ const rules = [
     description: "Require explicit schema in table DDL to avoid ambiguity.",
   },
   {
+    name: "require-query-table-schema",
+    tags: ["schema", "queries"],
+    description: "Require explicit schema in queries to avoid ambiguity.",
+  },
+  {
     name: "identifier-too-long",
     tags: ["schema"],
     description: "Prevent implicit truncation for identifiers that are too long.",

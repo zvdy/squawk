@@ -60,6 +60,7 @@ use rules::require_concurrent_index_deletion;
 use rules::require_concurrent_partition_detach;
 use rules::require_concurrent_reindex;
 use rules::require_enum_value_ordering;
+use rules::require_query_table_schema;
 use rules::require_table_schema;
 use rules::require_timeout_settings;
 use rules::transaction_nesting;
@@ -107,6 +108,7 @@ pub enum Rule {
     RequireLockTimeout,
     RequireStatementTimeout,
     BanDuplicateColumnAssignments,
+    RequireQueryTableSchema,
     // xtask:new-rule:error-name
 }
 
@@ -117,7 +119,7 @@ impl Rule {
         // require-timeout-settings is an alias, see `Rule::expands_to`
         matches!(
             self,
-            Rule::RequireTableSchema | Rule::RequireTimeoutSettings
+            Rule::RequireTableSchema | Rule::RequireQueryTableSchema | Rule::RequireTimeoutSettings
         )
     }
 
@@ -180,6 +182,7 @@ impl TryFrom<&str> for Rule {
             "require-lock-timeout" => Ok(Rule::RequireLockTimeout),
             "require-statement-timeout" => Ok(Rule::RequireStatementTimeout),
             "ban-duplicate-column-assignments" => Ok(Rule::BanDuplicateColumnAssignments),
+            "require-query-table-schema" => Ok(Rule::RequireQueryTableSchema),
             // xtask:new-rule:str-name
             _ => Err(format!("Unknown violation name: {s}")),
         }
@@ -251,6 +254,7 @@ impl fmt::Display for Rule {
             Rule::RequireLockTimeout => "require-lock-timeout",
             Rule::RequireStatementTimeout => "require-statement-timeout",
             Rule::BanDuplicateColumnAssignments => "ban-duplicate-column-assignments",
+            Rule::RequireQueryTableSchema => "require-query-table-schema",
             // xtask:new-rule:variant-to-name
         };
         write!(f, "{val}")
@@ -504,6 +508,9 @@ impl Linter {
         }
         if self.rules.contains(&Rule::BanDuplicateColumnAssignments) {
             ban_duplicate_column_assignments(self, file);
+        }
+        if self.rules.contains(&Rule::RequireQueryTableSchema) {
+            require_query_table_schema(self, file);
         }
         // xtask:new-rule:rule-call
 

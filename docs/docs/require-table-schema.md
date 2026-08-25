@@ -35,4 +35,5 @@ create table public.posts as select 1;
 
 ## links
 
+- [require-query-table-schema](./require-query-table-schema.md) checks table names in queries
 - https://www.postgresql.org/docs/current/ddl-schemas.html#DDL-SCHEMAS-PATH

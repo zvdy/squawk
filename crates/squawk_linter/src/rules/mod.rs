@@ -32,6 +32,7 @@ pub(crate) mod require_concurrent_index_deletion;
 pub(crate) mod require_concurrent_partition_detach;
 pub(crate) mod require_concurrent_reindex;
 pub(crate) mod require_enum_value_ordering;
+pub(crate) mod require_query_table_schema;
 pub(crate) mod require_table_schema;
 pub(crate) mod require_timeout_settings;
 pub(crate) mod transaction_nesting;
@@ -71,6 +72,7 @@ pub(crate) use require_concurrent_index_deletion::require_concurrent_index_delet
 pub(crate) use require_concurrent_partition_detach::require_concurrent_partition_detach;
 pub(crate) use require_concurrent_reindex::require_concurrent_reindex;
 pub(crate) use require_enum_value_ordering::require_enum_value_ordering;
+pub(crate) use require_query_table_schema::require_query_table_schema;
 pub(crate) use require_table_schema::require_table_schema;
 pub(crate) use require_timeout_settings::require_timeout_settings;
 pub(crate) use transaction_nesting::transaction_nesting;
